@@ -33,7 +33,7 @@ public class GSP {
 		}
 
 		//shuffle (for random tie breaking) and sort
-		Collections.shuffle(bidsCopy);	
+		Collections.shuffle(bidsCopy, AuctionSimulator.getRandom());	
 		Collections.sort(bidsCopy, Collections.reverseOrder());
 
 		int numSlots = slotClicks.size();

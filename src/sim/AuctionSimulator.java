@@ -37,8 +37,10 @@ public class AuctionSimulator {
 	private static final boolean DEBUG = true;
 	private static boolean logLevel = !DEBUG;
 
-
-
+	// our RNG. Always use this one instead of new Random() or
+	// Collection.shuffle(list).
+	// The user can set a seed in the param file and we need to respect that.
+	private static Random random;
 
 	/**
 	 * this function simulates one slot auction
@@ -343,6 +345,9 @@ public class AuctionSimulator {
 	public static Integer getSeed() {
 		return seed;
 	}
+	public static Random getRandom() {
+		return random;
+	}
 
 	public static int getReserve() {
 		return reserve;
@@ -424,9 +429,9 @@ public class AuctionSimulator {
 		ParseInput.setParameters(file);
 
 		//initialize the pseudo-random number generator
-		Random r = new Random();
+		random = new Random();
 		if (seed != null){
-			r = new Random(seed);
+			random = new Random(seed);
 		}
 
 		totalSpent = new ArrayList<Integer>();
@@ -456,7 +461,7 @@ public class AuctionSimulator {
 			for (int j = 0; j <numBidders; j++){
 				int v;
 				if (maxVal != minVal){
-					v = r.nextInt(maxVal-minVal) + minVal;
+					v = random.nextInt(maxVal-minVal) + minVal;
 				}
 				else{
 					v = maxVal;
@@ -477,7 +482,7 @@ public class AuctionSimulator {
 				}
 				ArrayList<Integer> permValues = (ArrayList<Integer>) values.clone();
 				
-				int perm = r.nextInt(perms.size());
+				int perm = random.nextInt(perms.size());
 				
 				permValues = Util.permute(perms.get(perm), values);
 				perms.remove(perm);

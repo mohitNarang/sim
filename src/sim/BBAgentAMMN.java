@@ -15,28 +15,45 @@ public class BBAgentAMMN extends Agent{
 	
 	@Override
 	public int initialBid(int reserve) {
-		return getValue(); // gets the value of the agent and returns its half
+		//return getValue(); // gets the value of the agent and returns its half
+        return getValue();
 	}
 
-	@Override
-	public int bid(int t, History history, int reserve) {
-		ArrayList<Integer> targetInfo = targetSlot(t, history, reserve);
-		
-		int targetSlot = targetInfo.get(0);
-		int bid = getValue();
-		
-		/*TODO compute the bid according to the balanced bidding strategy:
-		 * a) find the clickrates for the target and the next higher slot and
-		 * b) solve the balanced bidding equation s_i* (w_i-p_i*) = s_(i*-1)(w_i-b_i)
-		 * 
-		 * hint 1: use history.getSlotClicks(t-1)
-		 * hint 2: as described in the assignment, clicks_(targetSlot-1) = 2*clicks_(target_slot) if targetSlot == 0
-		 */
-		
-		return bid;
-	}
-	
-	/**
+    @Override
+    public int bid(int t, History history, int reserve) {
+        ArrayList<Integer> targetInfo = targetSlot(t, history, reserve);
+
+        int targetSlotId = targetInfo.get(0);
+        int minBid = targetInfo.get(1);
+        int maxBid = targetInfo.get(2);
+        int bid = getValue();
+
+        /*TODO compute the bid according to the balanced bidding strategy:
+         * a) find the clickrates for the target and the next higher slot and
+         * b) solve the balanced bidding equation s_i* (w_i-p_i*) = s_(i*-1)(w_i-b_i)
+         *
+         * hint 1: use history.getSlotClicks(t-1)
+         * hint 2: as described in the assignment, clicks_(targetSlotId-1) = 2*clicks_(target_slot) if targetSlotId == 0
+         */
+        int clickRateTargetSlot = history.getSlotClicks(t-1).get(targetSlotId);
+
+        int clickRateHigherSlot = 0;
+        if (targetSlotId == 0)
+            clickRateHigherSlot = 2*history.getSlotClicks(t-1).get(targetSlotId);
+        else
+            clickRateHigherSlot = history.getSlotClicks(t-1).get(targetSlotId-1);
+        bid = getValue() -
+                clickRateTargetSlot*
+                        (getValue() - history.getSlotClicks(t-1).get(targetSlotId))
+                        /clickRateHigherSlot;
+        if(bid>getValue())
+        bid= getValue(); // We bid truthfully in case the resulting bid is greater than our true value
+
+        return bid;
+        //return getValue();
+    }
+
+    /**
 	 * This function returns a list of Pairs (minBid,maxBid) for each slot (i.e. slot1,slot2, ...).
 	 * (minBid,maxBid)_i defines the miminum and maximum bid to win slot i, given that all other
 	 * agents bid the same amount as in the last round
@@ -77,9 +94,18 @@ public class BBAgentAMMN extends Agent{
 		 * 
 		 * hint: use history.getSlotClicks(t-1), and slotInfo(t, history, reserve)
 		 */
-		
+        ArrayList<Integer> listOfPrevPayments =  history.getSlotPayments(t-1);
+        ArrayList<Integer> listOfSlotClicks = history.getSlotClicks(t-1); // number of clicks on a slot
 
-		return expectedUtils;
+        ArrayList<Pair> slots = slotInfo(t, history, reserve);
+
+
+        for (int numberOfSlot = 0; numberOfSlot<slots.size(); numberOfSlot++)
+        {
+            expectedUtils.add(
+                    (getValue()* listOfSlotClicks.get(numberOfSlot)) - listOfPrevPayments.get(numberOfSlot) );
+        }
+        return expectedUtils;
 	}
 	
 	/**

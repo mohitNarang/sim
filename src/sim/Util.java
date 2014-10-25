@@ -7,7 +7,7 @@ public class Util {
 	
 	/**
 	 * 
-	 * @param i, an arbitrary integer greaterthan 0
+	 * @param i, an arbitrary integer >= 0
 	 * @return the factorial of i
 	 * 
 	 * source:
@@ -21,9 +21,9 @@ public class Util {
 	}
 	/**
 	 * 
-	 * @param i, an arbitrary integer greaterthan 0
+	 * @param i, an arbitrary integer >=0
 	 * @return the factorial of i
-	 * this function produces an overflow if i greaterhan 12,
+	 * this function produces an overflow if i>12,
 	 * so it returns MAX_INT (usually 2^31-1)
 	 */
 	public static long factorial (int i){
@@ -40,7 +40,7 @@ public class Util {
 	}
 	
 	/**
-	 * @param n, integer greaterthan 0, that specifies how many pairs are swapped
+	 * @param n, integer >= 0, that specifies how many pairs are swapped
 	 * @param list, a list of integers
 	 * @return a permutation of list
 	 */
