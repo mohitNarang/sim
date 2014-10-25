@@ -15,7 +15,7 @@ public class BBAgentAMMN extends Agent{
 	
 	@Override
 	public int initialBid(int reserve) {
-		return getValue()/2;
+		return getValue(); // gets the value of the agent and returns its half
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class BBAgentAMMN extends Agent{
 		ArrayList<Integer> targetInfo = targetSlot(t, history, reserve);
 		
 		int targetSlot = targetInfo.get(0);
-		int bid = 0;
+		int bid = getValue();
 		
 		/*TODO compute the bid according to the balanced bidding strategy:
 		 * a) find the clickrates for the target and the next higher slot and

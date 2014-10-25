@@ -30,11 +30,11 @@ maxval 180
 maxperms 120
 
 #The number of iterations (how many times to repeat an auction with different values)
-numiters 1
+numiters 10
 
 #The seed used to initialize the pseudo-random number generator (use this to get reproducible per click valuations)
 #seed 2
 
 #The list of bidding agents (the exact class names followed by the number of how many times it should be instantiated)
 #e.g. agents TruthfulAgent 3 BBAgentGroupName 2
-agents TruthfulAgent 5
+agents TruthfulAgent 8 BBAgentAMMN 2
