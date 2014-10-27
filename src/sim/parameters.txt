@@ -6,7 +6,7 @@
 loglevel default
 
 #The auction mechanism: gsp, vcg or switch
-mechanism gsp
+mechanism vcg
 
 #Number of rounds
 numrounds 48
@@ -30,7 +30,7 @@ maxval 180
 maxperms 120
 
 #The number of iterations (how many times to repeat an auction with different values)
-numiters 1000
+numiters 10
 
 #The seed used to initialize the pseudo-random number generator (use this to get reproducible per click valuations)
 #seed 9

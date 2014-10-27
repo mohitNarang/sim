@@ -102,7 +102,12 @@ public class VCG {
 			/*TODO implement the vcg payment rule, i.e. you need to implement equation (9.13) from the lectures notes
 			 * (i.e. totalPayment = t_{vcg,i}(b))
 			 */
-			
+                for(int k=i+1;k<alloc;k++)
+                {
+                    totalPayment += (slotClicks.get(k-1) - slotClicks.get(k))
+                                    * (bids.get(k).getSecond());
+                }
+
 			perClickPayments.add((int)Math.round(totalPayment/(double)slotClicks.get(i)));
 		}
 		return perClickPayments;
