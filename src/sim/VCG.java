@@ -99,13 +99,16 @@ public class VCG {
 		int alloc = Math.min(numValid, numSlots);
 		for (int i = 0; i<alloc; i++){
 			int totalPayment = 0;
-			/*TODO implement the vcg payment rule, i.e. you need to implement equation (9.13) from the lectures notes
-			 * (i.e. totalPayment = t_{vcg,i}(b))
-			 */
-                for(int k=i+1;k<alloc;k++)
+
+                for(int k=i+1;k<alloc+1;k++)
                 {
-                    totalPayment += (slotClicks.get(k-1) - slotClicks.get(k))
+                    if(k < alloc) {
+                    	totalPayment += (slotClicks.get(k-1) - slotClicks.get(k))
                                     * (bids.get(k).getSecond());
+                    } else {
+                    	totalPayment += (slotClicks.get(k-1) - 0)
+                                * (bids.get(k).getSecond());
+                    }
                 }
 
 			perClickPayments.add((int)Math.round(totalPayment/(double)slotClicks.get(i)));
