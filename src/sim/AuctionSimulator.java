@@ -505,7 +505,7 @@ public class AuctionSimulator {
 				for (int b = 0; b<bidders.size(); b++){
 					
 					if (i == 0 && p == 0){
-						totalUtility.add((int)(u.get(b)/(double)numPerms));
+						totalUtility.add((int)(u.get(b)/(double)numPerms/(double)numIters));
 					}
 					else{
 						totalUtility.set(b, totalUtility.get(b)+(int)(u.get(b)/(double)numPerms/(double)numIters));
